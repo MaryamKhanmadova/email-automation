@@ -21,9 +21,23 @@ import sendBirthdayEmails from '../src/sendBirthdayEmail.js';
 
 const app = express();
 
+const allowedOrigins = [
+  'https://email-automation-hr.vercel.app',
+  'https://email-automation-lime.vercel.app',
+  'https://email-automation-maryamkhanmadova-maryams-projects-d97582b9.vercel.app',
+];
+
 app.use(
   cors({
-    origin: 'https://email-automation-hr.vercel.app',
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true); // icazə ver
+      } else {
+        callback(new Error('CORS blocked: origin not allowed: ' + origin), false);
+      }
+    },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   }),
