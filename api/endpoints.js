@@ -23,7 +23,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: 'https://email-automation-hr-maryams-projects-d97582b9.vercel.app',
+    origin: 'https://email-automation-hr.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   }),
@@ -190,6 +190,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.listen(() => {
-  console.log(`Server running at https://email-automation-maryamkhanmadova-maryams-projects-d97582b9.vercel.app/`);
+  console.log(`Server running at https://email-automation-hr.vercel.app/`);
 });
 export default birthdayDate;
