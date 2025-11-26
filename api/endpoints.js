@@ -23,7 +23,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: 'https://email-automation-maryamkhanmadova-maryams-projects-d97582b9.vercel.app',
+    origin: 'https://email-automation-hr.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   }),
