@@ -21,33 +21,13 @@ import sendBirthdayEmails from '../src/sendBirthdayEmail.js';
 
 const app = express();
 
-const allowedOrigins = [
-  'https://email-automation-hr.vercel.app',
-  'https://email-automation-lime.vercel.app',
-  /\.vercel\.app$/,  // bütün vercel preview url-lər üçün
-];
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-
-      const isAllowed = allowedOrigins.some((allowed) => {
-        if (allowed instanceof RegExp) return allowed.test(origin);
-        return allowed === origin;
-      });
-
-      if (isAllowed) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS: ' + origin));
-      }
-    },
+    origin: 'https://email-automation-lime.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-  })
+  }),
 );
-
 
 app.use(express.urlencoded({ extended: true })); // Use express middleware to parse multi-part form data
 app.use(express.json());
