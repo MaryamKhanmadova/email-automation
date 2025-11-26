@@ -24,7 +24,7 @@ const app = express();
 const allowedOrigins = [
   'https://email-automation-hr.vercel.app',
   'https://email-automation-lime.vercel.app',
-  'https://email-automation-maryamkhanmadova-maryams-projects-d97582b9.vercel.app',
+  /\.vercel\.app$/,  // bütün vercel preview url-lər üçün
 ];
 
 app.use(
@@ -32,16 +32,22 @@ app.use(
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true); // icazə ver
+      const isAllowed = allowedOrigins.some((allowed) => {
+        if (allowed instanceof RegExp) return allowed.test(origin);
+        return allowed === origin;
+      });
+
+      if (isAllowed) {
+        callback(null, true);
       } else {
-        callback(new Error('CORS blocked: origin not allowed: ' + origin), false);
+        callback(new Error('Not allowed by CORS: ' + origin));
       }
     },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-  }),
+  })
 );
+
 
 app.use(express.urlencoded({ extended: true })); // Use express middleware to parse multi-part form data
 app.use(express.json());
