@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internal Company Communication</title>
+    <style>
+        /* Styles to make the email responsive */
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100% !important;
+            }
+        }
+    </style>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+
+<!-- Container -->
+<table class="container" cellpadding="0" cellspacing="0" border="0" align="center" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; border: 1px solid #dddddd;">
+    <!-- Header -->
+    <tr>
+        <td style="padding: 20px; text-align: center;">
+            <h1 style="color: #333333; margin: 10px 0 0;">Internal Company Communication</h1>
+        </td>
+    </tr>
+    <!-- Content -->
+    <tr>
+        <td style="padding: 20px;">
+            <p style="color: #333333; line-height: 1.6;">Dear Team,</p>
+            <p style="color: #333333; line-height: 1.6;">We would like to take a moment to celebrate some important occasions and updates:</p>
+            <!-- Section -->
+            <div>
+                <p style="color: #333333;">We congratulate our team member {{fullName}} on birthday, wish good health and success in work! 😊</p>
+            </div>
+            <!-- Closing -->
+            <p style="color: #333333; line-height: 1.6;">Best Regards,<br>Your Company</p>
+        </td>
+    </tr>
+    <!-- Image Section -->
+    <tr>
+        <td style="text-align: center;">
+          <div style="text-align: center;">
+            <img src="{{imageUrl}}" alt="Company Image" style="max-width: 100%; margin-top: 20px;" width="350" height="500">
+          </div>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
