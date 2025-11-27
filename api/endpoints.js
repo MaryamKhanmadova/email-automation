@@ -4,22 +4,16 @@ import cors from 'cors';
 import express from 'express';
 import nodemailer from 'nodemailer';
 import multer from 'multer';
-import cron from 'node-cron';
+import cron  from 'node-cron';
 import bodyParser from 'body-parser';
-import {
-  upload,
-  uploadFiles,
-  uploadDirFiles,
-  uploadImage,
-  uploadDir,
-  __dirname,
-} from '../src/upload.js';
-import readTemplateFile from '../src/readTemplate.js';
-import { parseExcelAndSaveChangesToJson } from '../src/parseExcel.js';
-import { birthdayDate, readAndFormatColumnI } from '../src/readAndChaeckBirthday.js';
-import sendBirthdayEmails from '../src/sendBirthdayEmail.js';
+import {upload, uploadFiles, uploadDirFiles, uploadImage, uploadDir, __dirname} from '../src/upload.js';
+import readTemplateFile from '../src/readTemplate.js'
+import {parseExcelAndSaveChangesToJson} from '../src/parseExcel.js'
+import { birthdayDate, readAndFormatColumnI} from '../src/readAndChaeckBirthday.js'
+import sendBirthdayEmails from '../src/sendBirthdayEmail.js'
 
 const app = express();
+// const port = 3000;
 
 app.use(
   cors({
@@ -32,8 +26,7 @@ app.use(
 app.use(express.urlencoded({ extended: true })); // Use express middleware to parse multi-part form data
 app.use(express.json());
 
-app.post(
-  '/uploadFile',
+app.post('/api/uploadFile',
   (req, res, next) => {
     uploadFiles.single('file')(req, res, async function (err) {
       await parseExcelAndSaveChangesToJson();
@@ -55,18 +48,19 @@ app.post(
       console.error('Error processing file:', error);
       res.status(500).json({ message: 'Error processing file' });
     }
-  },
+  }
 );
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.post('/uploadImage', uploadImage.single('image'), async (req, res) => {
+app.post('/api/uploadImage', uploadImage.single('image'), async (req, res) => {
   if (!req.file) {
     return res.status(400).send('No file uploaded.');
   }
   const { name } = req.body;
-  console.log(req.body.imageUrl);
+  console.log(req.body.imageUrl)
   const namesFilePath = path.join(__dirname, '/files/tempDatabase.json');
+  console.log("namesFILEPath" + namesFilePath + "dirname" + __dirname);
   fs.readFile(namesFilePath, 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading names file:', err);
@@ -74,9 +68,9 @@ app.post('/uploadImage', uploadImage.single('image'), async (req, res) => {
     }
     const names = JSON.parse(data);
     const updatedNames = names.map((item) =>
-      item.name === name ? { ...item, imageUrl: req.body.imageUrl } : item,
+      item.name === name ? { ...item, imageUrl: req.body.imageUrl } : item
     );
-
+    
     fs.writeFile(namesFilePath, JSON.stringify(updatedNames, null, 2), 'utf8', (err) => {
       if (err) {
         console.error('Error updating names file:', err);
@@ -87,25 +81,24 @@ app.post('/uploadImage', uploadImage.single('image'), async (req, res) => {
   });
 });
 
-app.get('/tempDatabase', async (req, res) => {
+app.get('/api/tempDatabase', async (req, res) => {
   fs.readFile(path.join(__dirname, '/files/tempDatabase.json'), 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading names file:', err, __dirname);
       res.status(500).send('Error reading names file');
       return;
-    }
-    try {
-      const jsonData = JSON.parse(data);
-      jsonData;
-    } catch (parseError) {
-      console.error('Error parsing JSON data:', parseError);
-      console.error('Invalid JSON data:', data);
-    }
+    }try {
+        const jsonData = JSON.parse(data);
+        jsonData;
+      } catch (parseError) {
+        console.error('Error parsing JSON data:', parseError);
+        console.error('Invalid JSON data:', data);
+      }
     res.json(JSON.parse(data));
   });
 });
 
-app.get('/templates', (req, res) => {
+app.get('/api/templates', (req, res) => {
   const templatesDir = uploadDir;
   fs.readdir(templatesDir, (err, files) => {
     if (err) {
@@ -117,12 +110,12 @@ app.get('/templates', (req, res) => {
       const filePath = path.join(templatesDir, file);
       const content = fs.readFileSync(filePath, 'utf-8');
       return { name: file, content };
-    });
+    })
     res.json(templates);
   });
 });
 
-app.post('/send-email', upload.single('image'), async (req, res) => {
+app.post('/api/send-email', upload.single('image'), async (req, res) => {
   const { to, cc, subject, imageUrl, templateName, ...replacements } = req.body;
   const filePath = path.join(__dirname, '..', 'templates', templateName);
 
@@ -137,7 +130,7 @@ app.post('/send-email', upload.single('image'), async (req, res) => {
       htmlContentWithValues = htmlContentWithValues.replaceAll('{{imageUrl}}', imageUrl);
     }
     for (const [placeholder, value] of Object.entries(replacements)) {
-      const escapedPlaceholder = placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const escapedPlaceholder = placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); 
       const placeholderRegex = new RegExp(`{{${escapedPlaceholder}}}`, 'g');
       htmlContentWithValues = htmlContentWithValues.replace(placeholderRegex, value);
     }
@@ -163,9 +156,8 @@ app.post('/send-email', upload.single('image'), async (req, res) => {
 
     res.json({ success: true, message: 'Email sent successfully' });
   } catch (error) {
-    console.log('catch');
     console.error('Error sending email:', error);
-    res.status(500).json({ success: false, message: 'Failed to send email' });
+    res.status(500).json({ success: false, message: 'Failed to send email', res});
   }
 });
 
@@ -186,10 +178,11 @@ cron.schedule('0 12 * * *', async () => {
   }
 });
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.listen(() => {
-  console.log(`Server running at https://email-automation-hr.vercel.app/`);
+  console.log(`Server running at https://email-automation-hr.vercel.app`);
 });
 export default birthdayDate;
