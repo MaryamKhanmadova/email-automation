@@ -6,7 +6,7 @@ export const templatesAPI = createApi({
   reducerPath: 'templatesAPI',
   baseQuery: fetchBaseQuery({
     //baseUrl: import.meta.env.VITE_BASE_URL_API + '/api',
-    baseUrl: 'https://email-automation-hr.vercel.app/api',
+    baseUrl: 'https://email-automation-hr-maryams-projects-d97582b9.vercel.app/api',
     fetchFn: async (...args) => {
       await pause(2000);
       return fetch(...args);
