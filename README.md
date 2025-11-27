@@ -8,7 +8,7 @@ This project is a web application that allows company to automate the sending of
 2. Run `npm install` to install the dependencies
 3. Configure the Prettier and ESLint plugins in your IDE
 4. Run `npm run dev` to start the development server
-5. Run `nodemon src/endpoints.js` to start the backend server
+5. Run `nodemon api/endpoints.js` to start the backend server
 
 
 ## React + TypeScript + Vite
