@@ -7,7 +7,7 @@ interface NameEntry {
 
 export const tempDatabaseApi = createApi({
   reducerPath: 'tempDatabaseApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://email-automation-hr.vercel.app/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://email-automation-7hrg.onrender.com/api' }),
   endpoints: (builder) => ({
     fetchNames: builder.query<NameEntry[], void>({
       query: () => 'tempDatabase',
