@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const emailAPI = createApi({
   reducerPath: 'emailAPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://email-automation-hr.vercel.app/api', // Adjust the base URL as needed
+    baseUrl: 'https://email-automation-7hrg.onrender.com/api', // Adjust the base URL as needed
   }),
   endpoints(builder) {
     return {
