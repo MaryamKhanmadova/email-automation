@@ -182,7 +182,10 @@ cron.schedule('0 12 * * *', async () => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(() => {
-  console.log(`Server running at https://email-automation-hr.vercel.app`);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });
+
 export default birthdayDate;
