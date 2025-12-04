@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "node api/endpoints.js",
     "build": "tsc && vite build",
     "lint": "eslint email_automation --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
